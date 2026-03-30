@@ -1,0 +1,255 @@
+<!--<div ba-panel>-->
+<div class="horizontal-scroll" ng-controller="PromoteSheetCtrl">
+    <!--<div class="row" >-->
+        <!--<div style="background: #555555 !important; color: ghostwhite " class="jumbotron jumbotron-fluid text-center col-sm-6 col-sm-offset-3" >-->
+            <!--&lt;!&ndash;<div class="container text-center " style="background: #555555 !important; color: ghostwhite">&ndash;&gt;-->
+                <!--<h1>Air New Zealand Limited</h1>-->
+                <!--<h2>Carina Platforms - Software Engineering</h2><br/>-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div><br><br></div>
+    <div class="text-center">
+        <h2><span style="color: #9f2424; font-size: 115%">Ticket</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-uppercase" style="font-size: 115%"> {{PromoteSheetData.ticketNo}} </span>
+        </h2>
+        <h2><span style="color: #9f2424; font-size: 115%">Programmer</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-capitalize" style="font-size: 115%">  {{PromoteSheetData.programmer}} </span>
+        </h2>
+        <h2><span style="color: #9f2424; font-size: 115%">Project</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-uppercase" style="font-size: 115%"> {{PromoteSheetData.project}} </span>
+        </h2>
+        <h2><span style="color: #9f2424; font-size: 115%">Description</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-capitalize" style="font-size: 115%"> {{PromoteSheetData.description}} </span>
+        </h2>
+        <h2><span style="color: #9f2424; font-size: 115%">Promote Status</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-capitalize" style="font-size: 115%"> {{PromoteSheetData.jobStatus}} </span>
+        </h2>
+        <h2><span style="color: #9f2424; font-size: 115%">Load Module</span>
+            <span style="color: black; font-size: 115%">   :  </span>
+            <span class="text-uppercase" style="font-size: 115%; color: #375fcb"> {{PromoteSheetData.loadModule}} </span>
+        </h2>
+    </div>
+
+    <div class="row">
+        <!--<div ba-panel ng-show="totalMacros == 0" class="col-md-10 col-md-offset-1">-->
+        <!--<h2 class="text-center" style="color: #C92D2D"><b>{{PromoteSheetData.jobStatus}}</b></h2><br/>-->
+
+        <div  ng-show="PromoteSheetData.jobStatus == 'Fallback'">
+            <div><br><br><br></div>
+            <div class="panel panel-custom-1">
+                <div class="panel-heading text-center" style="font-size: large; color: white; background-color: #cc0000 "><b>FALLBACK INFORMATION</b></div>
+                <table class="table table-hover table-bordered" data-toggle="tooltip" >
+                    <thead>
+                        <tr class="editable-tr-wrap" style="height: 40px; background-color: white; color: black; font-size: medium">
+                            <td class="text-center" style="color: black"><b> DATE :</b></td>
+                            <td class="text-center" style="color: darkblue"> {{PromoteSheetData.fallbackDate}} </td>
+                        </tr>
+                        <tr class="editable-tr-wrap" style="height: 40px; background-color: white; color: black; font-size: medium">
+                            <td class="text-center" style="color: black"><b> GIT-SHA :</b></td>
+                            <td class="text-center" ><a href="https://git.airnz.co.nz/commit/?r=Carina/carina/carina-source.git&h={{PromoteSheetData.gitSha}}" target="_blank" style="color: darkblue;"> {{PromoteSheetData.fbkGitSha}} </a></td>
+                        </tr>
+                        <tr class="editable-tr-wrap" style="height: 40px; background-color: white; color: black; font-size: medium">
+                            <td class="text-center" style="color: black"><b> JENKINS JOB ID :</b></td>
+                            <td class="text-center" ><a href="http://carinaci-test/job/CARINA%20-%20Promote/{{PromoteSheetData.jenkinsJobId}}/console/" target="_blank" style="color: darkblue;"> {{PromoteSheetData.fbkJobId}} </a></td>
+                        </tr>
+                        <tr class="editable" style="height: 40px; background-color: white; color: black; font-size: medium">
+                            <td class="text-center" style="color: black"><b> NOTE/REASON :</b></td>
+                            <td class="text-center" editable-text="PromoteSheetData.fbkNote" onbeforesave="updateFallbackData($data)" > {{PromoteSheetData.fbkNote}} </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    <div><br><br><br></div>
+    <div class="row" >
+        <!--<div ba-panel ng-show="totalMacros == 0" class="col-md-10 col-md-offset-1">-->
+        <!--<h2 class="text-center" style="color: #C92D2D"><b>MACRO PROMOTE</b></h2><br/>-->
+        <div class="panel panel-custom-1" ng-show="totalMacros !== 0">
+            <div class="panel-heading text-center" style="font-size: large;  color: #555555"><b>MACRO PROMOTE</b></div>
+            <div class="panel-body">
+                <table class="table table-hover" st-table="PromoteMacroList" st-safe-src="PromoteMacroListSrc">
+                    <thead>
+                    <tr class="sortable" style="height: 35px; background-color: #555555; color:white; border: inset;">
+                        <th class="text-center" st-sort="macroName">MACRO NAME</th>
+                        <th class="text-center" st-sort="promoteResponse">PROMOTE RESPONSE</th>
+                        <th class="text-center" st-sort="promoteTime" st-sort-default="true">PROMOTE TIME</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="eachMacro in PromoteMacroList" data-toggle="tooltip"  title="{{PromoteSheetData.ticketNo}}" >
+                        <td ng-if="PromoteSheetData.jobStatus !== 'Success'" class="text-center" data-toggle="tooltip" title="Source view not available" target="_blank" style="color: darkblue;">{{eachMacro.macroName}}</td>
+                        <td ng-if="PromoteSheetData.jobStatus == 'Success'" class="text-center" data-toggle="tooltip" title="Click to view {{eachProgram.program}} source code" ><a href="https://git.airnz.co.nz/blob/?f=macro/{{eachMacro.macroName}}.mac&r=Carina/carina/carina-source.git&h={{PromoteSheetData.gitSha}}" target="_blank" style="color: darkblue;">{{eachMacro.macroName}}</a></td>
+                        <td class="text-center">{{eachMacro.promoteResponse}}</td>
+                        <td class="text-center">{{eachMacro.promoteTime}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <div st-pagination="" st-items-by-page="tablePageSize" st-displayed-pages=""></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--</div>-->
+    <div><br><br></div>
+    <!--<div ba-panel class="col-md-10 col-md-offset-1">-->
+    <!--<h3 class="text-center" style="color: #C92D2D"><b>PROGRAM PROMOTE</b></h3><br />-->
+    <div class="panel panel-custom-1">
+        <div class="panel-heading text-center" style="font-size: large; color: #555555"><b>PROGRAM PROMOTE</b></div>
+        <div class="panel-body">
+            <!--<label>Rows on page-->
+            <!--<select class="form-control selectpicker show-tick" title="Rows on page" ng-model="tablePageSize" selectpicker ng-options="i for i in [2, 5,10,15,20,25]">-->
+            <!--</select>-->
+            <!--</label>-->
+            <table class="table table-hover" st-table="PromoteProgramList" st-safe-src="PromoteProgramListSrc">
+                <thead>
+                <tr class="sortable" style="height: 35px; background-color: #555555; color:white; border: inset;">
+                    <th class="text-center" st-sort="program"><b>PROGRAM NAME</b></th>
+                    <th class="text-center" st-sort="oldVersion"><b>OLD VERSION</b></th>
+                    <th class="text-center" st-sort="newVersion"><b>NEW VERSION</b></th>
+                    <th class="text-center" st-sort="promoteResponse"><b>PROGRAM RESPONSE</b></th>
+                    <th class="text-center" st-sort="assemblyCc"><b>ASSEMBLY CC</b></th>
+                    <th class="text-center" st-sort="promoteTime" st-sort-default="true" ><b>PROMOTE TIME</b></th>
+                    <th class="text-center" st-sort="programListing"><b>PROGRAM LISTING</b></th>
+                </tr>
+                <!--<tr class="text-center">-->
+                <!--<th><input st-search="promoteDate" placeholder="Search Promote Date" class="input-sm form-control search-input"-->
+                <!--type="search"/></th>-->
+                <!--<th><input st-search="jiraRef" placeholder="Search Jira Ref" class="input-sm form-control search-input"-->
+                <!--type="search"/></th>-->
+                <!--<th><input st-search="programmer" placeholder="Search Programmer" class="input-sm form-control search-input"-->
+                <!--type="search"/></th>-->
+                <!--<th><input st-search="jenkinsJobId" placeholder="Search Jenkins Job Id" class="input-sm form-control search-input" type="search"/>-->
+                <!--</th>-->
+                <!--<th><input st-search="status" placeholder="Search Status" class="input-sm form-control search-input" type="search"/>-->
+                <!--</th>-->
+                <!--</tr>-->
+                </thead>
+                <tbody >
+                <tr ng-repeat="eachProgram in PromoteProgramList" data-toggle="tooltip"  title="{{PromoteSheetData.ticketNo}}" >
+                    <td ng-if="PromoteSheetData.jobStatus !== 'Success'" class="text-center" data-toggle="tooltip" title="Source view not available" target="_blank" style="color: darkblue;">{{eachProgram.program}}</td>
+                    <td ng-if="PromoteSheetData.jobStatus == 'Success'" class="text-center" data-toggle="tooltip" title="Click to view {{eachProgram.program}} source code" ><a href="https://git.airnz.co.nz/blob/?f=src/{{eachProgram.program}}.asm&r=Carina/carina/carina-source.git&h={{PromoteSheetData.gitSha}}" target="_blank" style="color: darkblue;">{{eachProgram.program}}</a></td>
+                    <td class="text-center">{{eachProgram.oldVersion}}</td>
+                    <td class="text-center">{{eachProgram.newVersion}}</td>
+                    <td class="text-center">{{eachProgram.promoteResponse}}</td>
+                    <td class="text-center">{{eachProgram.assemblyCc}}</td>
+                    <td class="text-center">{{eachProgram.promoteTime}}</td>
+                    <td ng-if="eachProgram.assemblyCc !== '--' " class="text-center" data-toggle="tooltip" title="Click to view {{eachProgram.programListing}} Listing for the current promote" ><a href="listing\{{PromoteSheetData.jenkinsJobId}}\{{eachProgram.programListing}}.html" target="_blank" style="color: darkblue;" >  {{eachProgram.programListing}}  </a></td>
+                    <td ng-if="eachProgram.assemblyCc == '--' " class="text-center" data-toggle="tooltip" title="Listing not generated for the program {{eachProgram.program}}" target="_blank" style="color: grey;" >  ------  </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <div st-pagination="" st-items-by-page="tablePageSize" st-displayed-pages=""></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <!--</div>-->
+    <div><br><br></div>
+    <div class="panel panel-custom-4">
+        <div class="panel-heading text-center" style="font-size: large;" ><b>SYSTEM & ACCEPTANCE TESTING</b></div>
+        <div class="panel-body text-center" style="font-size: medium;" >
+            <ol>  {{PromoteSheetData.testerName1}} </ol>
+            <ol>  {{PromoteSheetData.testerName2}} </ol>
+        </div>
+    </div>
+    <div><br><br></div>
+        <div class="panel panel-custom-5">
+            <div class="panel-heading text-center" style="font-size: large;" ><b>SPECIAL REQUIREMENTS</b></div>
+            <div class="panel-body text-center" style="font-size: medium;" >
+                <input class="display-username" align="right" type="checkbox" ng-model="edit" ><br />
+                <p style="white-space: pre;" ng-show="!edit">{{PromoteSheetData.specialRequirement}}</p>
+                <textarea style="width: 80%; height: 90%" ng-model="PromoteSheetData.specialRequirement" ng-show="edit"></textarea><br>
+                <button type="button" class="btn-sm btn-success text-center" ng-show="edit" ng-click="updateSpecialRequirements(PromoteSheetData.specialRequirement)" >Save</button>
+            </div>
+        </div>
+    <div><br><br></div>
+    <div class="panel panel-custom-6">
+        <div class="panel-heading text-center" style="font-size: large;" ><b>FALLBACK PLAN</b></div>
+        <div class="panel-body text-center" style="font-size: medium;">
+            <p>{{PromoteSheetData.fallbackOption}}</p>
+        </div>
+    </div>
+    <div><br><br></div>
+    <div class="text-center">
+        <!--<button progress-button="progressFunction()" ng-hide="PromoteSheetData.jobStatus !== 'Success'" ng-show="!qual_load" ng-model="qual_load" style="width: 80%;" pb-style="rotate-angle-bottom" class="btn btn-info" ng-click="updateJobStatus('UAT in Progress', 'E:\\JENKINS\\jobs\\binaries\\QUAL_LOAD\\'+PromoteSheetData.loadModule+'.xml', 'E:\\JENKINS\\jobs\\binaries\\UAT\\'+PromoteSheetData.loadModule+'.xml')" >Loaded to QUAL for UAT</button>-->
+        <!--<button progress-button="progressFunction()" ng-hide="PromoteSheetData.jobStatus !== 'UAT in Progress'" ng-show="!qual_signoff" ng-model="qual_signoff" style="width: 80%;" pb-style="rotate-angle-bottom" class="btn btn-primary" ng-click="updateJobStatus('Ready for Production', 'E:\\JENKINS\\jobs\\binaries\\UAT\\'+PromoteSheetData.loadModule+'.xml', 'E:\\JENKINS\\jobs\\binaries\\PROD_LOAD\\'+PromoteSheetData.loadModule+'.xml')" ><i class="ion-android-checkmark-circle"></i> UAT Passed</button>-->
+        <button progress-button="progressFunction()" ng-hide="PromoteSheetData.jobStatus !== 'UAT in Progress'" style="width: 80%;" pb-style="rotate-angle-bottom" class="btn btn-success" ng-click="updateJobStatus('Ready for Production', 'E:\\JENKINS\\jobs\\binaries\\UAT\\'+PromoteSheetData.loadModule+'.xml', 'E:\\JENKINS\\jobs\\binaries\\PROD_LOAD\\'+PromoteSheetData.loadModule+'.xml')" ><i class="ion-android-checkmark-circle"></i> UAT Passed</button>
+        <button progress-button="progressFunction()" ng-hide="PromoteSheetData.jobStatus !== 'Loaded To Production (A0)'" style="width: 80%;" pb-style="rotate-angle-bottom" class="btn btn-primary" ng-click="updateJobStatus('Consolidated To A2ZDAT', 'E:\\JENKINS\\jobs\\binaries\\PROD_FBK\\'+PromoteSheetData.loadModule+'.xml', 'E:\\JENKINS\\jobs\\binaries\\CONSOLIDATED\\'+PromoteSheetData.loadModule+'.xml')" ><i class="ion-android-checkmark-circle"></i> CONSOLIDATED </button>
+
+        <!--<button progress-button="progressFunction()" ng-hide="PromoteSheetData.jobStatus !== 'Ready for Production'" ng-show="!prod_load" ng-model="prod_load" style="width: 80%;" pb-style="rotate-angle-bottom" class="btn btn-success" ng-click="updateJobStatus('Loaded To Production (A0)', 'E:\\JENKINS\\jobs\\binaries\\'+PromoteSheetData.loadModule+'.xml', 'D:\\JAR\\'+PromoteSheetData.loadModule+'.xml')" >Loaded To Production (A0)</button>-->
+    </div>
+    <div><br><br></div>
+
+        <div class="panel panel-custom-1">
+            <div class="panel-heading text-center" style="font-size: large; color: #555555" ><b>FOR CARINA SYSTEMS USE:</b></div>
+            <div class="panel-body text-center" >
+               <table class="table table-hover table-bordered" data-toggle="tooltip" title="For Carina Systems Use">
+                    <thead>
+                    <tr style="height: 35px; background-color: #555555; color:white;  border: inset;">
+                        <th class="text-center">  Link Date  </th>
+                        <th class="text-center">  Load Date  </th>
+                        <th class="text-center">  Load Module  </th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr class="editable-tr-wrap" style="height: 40px; background-color: white; color: black">
+                        <td class="text-center" ><b> {{PromoteSheetData.promoteDate}}  </b></td>
+                        <td class="text-center" editable-text="PromoteSheetData.loadDate" onbeforesave="updateLoadDate($data)"><b> {{PromoteSheetData.loadDate}} </b></td>
+                        <td class="text-center" ><b> {{PromoteSheetData.loadModule}}  </b></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr  style="height: 35px; background-color: #555555; color:white; border: inset;">
+                        <th class="text-center">  Service Now Change Number </th>
+                        <th class="text-center">  Consolidated Date  </th>
+                        <th class="text-center">  Consolidated Module  </th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr class="editable-tr-wrap" style="height: 40px; background-color: white;color: black">
+                        <td class="text-center" editable-text="PromoteSheetData.changeNumber" onbeforesave="updateChangeNumber($data)" ><b>  {{PromoteSheetData.changeNumber}}  </b></td>
+                        <td class="text-center" editable-text="PromoteSheetData.colsolDate" onbeforesave="updateColsolDate($data)" ><b>  {{PromoteSheetData.colsolDate}}  </b></td>
+                        <td class="text-center" editable-text="PromoteSheetData.colsolMod" onbeforesave="updateColsolMod($data)"><b>   {{PromoteSheetData.colsolMod}}  </b></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr style="height: 35px; background-color: #555555; color:white; border: inset;">
+                        <th class="text-center">  Git Commit SHA  </th>
+                        <th class="text-center">  Jenkins Promote ID  </th>
+                        <th class="text-center">  Note </th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr class="editable-tr-wrap" style="height: 40px; background-color: white; color: black">
+                        <td class="text-center" ><b><a href="https://git.airnz.co.nz/commit/?r=Carina/carina/carina-source.git&h={{PromoteSheetData.gitSha}}" target="_blank" style="color: black;">{{PromoteSheetData.gitSha}}</a></b></td>
+                        <td class="text-center" ><b><a href="http://carinaci-test/job/CARINA%20-%20Promote/{{PromoteSheetData.jenkinsJobId}}/console/" target="_blank" style="color: black;">{{PromoteSheetData.jenkinsJobId}}</a></b></td>
+                        <td class="text-center" editable-text="PromoteSheetData.note" onbeforesave="updateNote($data)"><b> {{PromoteSheetData.note}} </b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+<!--</div>-->
+</div>
+</div>
+</div>
+</div>
+<!--</div>-->

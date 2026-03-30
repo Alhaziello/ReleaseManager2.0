@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<!--<html>-->
+<head>
+    <% include layout.ejs %>
+
+    <title>Carina Node App</title>
+    <span> Welcome <%= user %></span>
+</head>
+
+    <body ng-app="Myapp">
+
+        <% include ../../public/app/main/navbar-options.ejs %>
+
+<!--<div ng-view></div>-->
+
+
+    <div ui-view></div>
+
+</body>
+
+<footer class="text-center">
+    <p>&copy; 2016-2017 Air New Zealand Ltd, Corporate Information and Technology</p>
+
+</footer>
+
+</html>

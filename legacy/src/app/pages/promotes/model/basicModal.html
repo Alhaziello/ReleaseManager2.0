@@ -1,0 +1,28 @@
+<div class="modal-content" ng-controller="CalenderCtrl">
+  <div class="modal-header">
+    <!--<button type="button" class="close" ng-click="$dismiss()" aria-label="Close">-->
+      <!--<em class="ion-ios-close-empty sn-link-close"></em>-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="myModalLabel">Modal title</h4>-->
+  <!--</div>-->
+
+  <div class="row" >
+    <div class="col-md-12">
+      <div ba-panel ng-controller="PromoteListCtrl" >
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+        <label class="form-group">CALENDAR</label>&nbsp;
+        <input date-range-picker id="daterange" name="daterange" type="text" ng-model="date" options="opts"/>
+        <br/>
+        <!--<div include-with-scope="app/pages/promotes/calenderPromoteTable.html"></div>-->
+      </div>
+    </div>
+  </div>
+  <!--<div class="modal-body">-->
+    <!--Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet-->
+    <!--dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper-->
+    <!--suscipit lobortis nisl ut aliquip ex ea commodo consequat.-->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn-lg btn-success"  ng-click="$dismiss()" >Search</button>
+  </div>
+</div>

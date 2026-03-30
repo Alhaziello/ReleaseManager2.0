@@ -1,0 +1,23 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <!--<button type="button" class="close" ng-click="$dismiss()" aria-label="Close">-->
+      <!--<em class="ion-ios-close-empty sn-link-close"></em>-->
+    <!--</button>-->
+    <h4 class="modal-title" >DELETE SERRC</h4>
+  </div>
+
+  <form name="myForm">
+    <div class="modal-body">
+      <div class="form-group has-error">
+            <label class="control-label" for="serrcNo" >Serrc Number</label>
+            <input type="text" class="form-control" id="serrcNo" ng-model="reqSerrcNo" placeholder="Enter Serrc Number..." required><br>
+      </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <a ui-sref="serrcs.remove"><button type="submit" ng-disabled="myForm.$invalid" class="btn-custom btn" >REMOVE</button></a>
+    </div>
+  </form>
+</div>

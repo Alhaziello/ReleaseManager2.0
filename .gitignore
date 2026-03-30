@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+ENV/
+env/
+.env
+
+# Project Specific
+carina.db
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Build/Dist
+dist/
+build/
+node_modules/
+package-lock.json
+package.json

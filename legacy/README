@@ -1,0 +1,15 @@
+Requirement to use  tool (gulp serve) and (gulp serve:dist):
+
+1. NODE - Installed version : v4.3.0
+2. GIT - git version 2.8.3.windows.1
+3. GULP - [17:19:33] CLI version 3.9.1
+4. BOWER - v1.8.0
+5. NPM - v2.14.12
+
+Clone this repo and install npm production dependencies:
+    npm install --production
+
+Make sure the computer has node & npm installed already.
+
+To start (production):
+    npm run start

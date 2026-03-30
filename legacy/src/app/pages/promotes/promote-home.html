@@ -1,0 +1,64 @@
+<!--<script src="../../app.js"></script>-->
+<div class="dashboard" >
+
+    <div class="wrapper">
+        <crm-switcher switcher-style="custom" switcher-value="promoteToggle.switch.calender" ></crm-switcher>
+
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="ALL" ng-value="ALL" /><span><b>All</b></span>
+        </label>
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="PROJECTS"/><span><b>Projects</b></span>
+        </label>
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="RES"/><span><b>Carina-RES</b></span>
+        </label>
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="DCS"/><span><b>Carina-DCS</b></span>
+        </label>
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="READY-4-PROD"/><span style="color: #D2691E"><b>Ready For Production</b></span>
+        </label>
+        <label class="custom-radio radio-inline nowrap" ng-hide="promoteToggle.switch.calender !== true">
+            <input type="radio" ng-model="modification.type" name="promote-filter" value="READY-4-CONSOLIDATION"/><span style="color: #808000"><b>Ready For Consolidation</b></span>
+        </label>
+    </div>
+
+    <div><br><br></div>
+    <div class="col-md-12" ng-hide="promoteToggle.switch.calender == true">
+        <!--<div ba-panel >-->
+          <div class="row">
+              <div include-with-scope="app/pages/promotes/filter-calender/calenderPromoteTable.html" ng-controller="PromoteListCtrl"></div>
+          </div>
+        <!--</div>-->
+    </div>
+
+    <div class="col-md-12" ng-show="promoteToggle.switch.calender == true" >
+
+        <div ba-panel class="row" ng-show="modification.type == 'READY-4-PROD'">
+            <div include-with-scope="app/pages/promotes/filter-ready4prod/Ready4Prod-PromoteList.html" ng-controller="PromoteListCtrl"></div>
+        </div>
+
+        <div ba-panel class="row" ng-show="modification.type == 'READY-4-CONSOLIDATION'">
+            <div include-with-scope="app/pages/promotes/filter-ready4cons/Ready4Cons-PromoteList.html" ng-controller="PromoteListCtrl"></div>
+        </div>
+
+        <div ba-panel class="row" ng-show="modification.type == 'DCS'">
+            <div include-with-scope="app/pages/promotes/filter-dcs/DCS-PromoteList.html" ng-controller="PromoteListCtrl"></div>
+        </div>
+
+        <div ba-panel class="row" ng-show="modification.type == 'PROJECTS'">
+            <div include-with-scope="app/pages/promotes/filter-project/PRJ-PromoteList.html" ng-controller="PromoteListCtrl"></div>
+        </div>
+
+        <div ba-panel class="row" ng-show="modification.type == 'RES'" >
+            <div include-with-scope="app/pages/promotes/filter-reservation/RES-PromoteList.html" ng-controller="PromoteListCtrl"></div>
+        </div>
+
+        <div ba-panel class="row" ng-hide="modification.type == 'RES' || modification.type == 'DCS' || modification.type == 'PROJECTS' || modification.type == 'READY-4-PROD' || modification.type == 'READY-4-CONSOLIDATION'">
+             <div include-with-scope="app/pages/promotes/promoteTable.html" ng-controller="PromoteListCtrl" ></div>
+        </div>
+    </div>
+
+</div>
+

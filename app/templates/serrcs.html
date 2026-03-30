@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><span class="text-danger">Serrc</span> Incident Register</h2>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addSerrcModal">
+        + Log Serrc
+    </button>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Serrc No</th>
+                    <th>Program Name</th>
+                    <th>Cause</th>
+                    <th>Action Taken</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in serrcs %}
+                <tr>
+                    <td><span class="fw-bold">{{ s.serrc_no }}</span></td>
+                    <td>{{ s.program_name }}</td>
+                    <td>{{ s.cause }}</td>
+                    <td>{{ s.action }}</td>
+                    <td>
+                        <form action="{{ url_for('main.delete_serrc', id=s.id) }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-muted">No serrcs in the register.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Serrc Modal -->
+<div class="modal fade" id="addSerrcModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ url_for('main.add_serrc') }}" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Log New Serrc Incident</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+                <label>Serrc Number (Unique)</label>
+                <input type="text" class="form-control" name="serrc_no" required>
+            </div>
+            <div class="mb-3">
+                <label>Program Affected</label>
+                <input type="text" class="form-control" name="program_name" required>
+            </div>
+            <div class="mb-3">
+                <label>Incident Cause</label>
+                <textarea class="form-control" name="cause" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Action Taken</label>
+                <textarea class="form-control" name="action" rows="2"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger">Add Serrc</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

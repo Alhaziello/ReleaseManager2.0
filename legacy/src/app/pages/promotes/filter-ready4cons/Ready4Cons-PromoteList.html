@@ -1,0 +1,96 @@
+<div class="horizontal-scroll">
+  <div class="form-group select-page-size-wrap ">
+
+    <label>Rows on page
+      <select class="form-control selectpicker show-tick" title="Rows on page" ng-model="promoteTablePageSize" selectpicker ng-options="i for i in [5,10,15]">
+      </select>
+    </label>
+  </div>
+
+  <table class="table table-hover table-bordered" st-table="ProList" st-safe-src="tableCollections" >
+    <thead>
+    <tr class="sortable" style="height: 35px; background-color: #555555; color:white; border: inset;">
+      <th class="text-center" st-sort="promoteDate">PROMOTE DATE</th>
+      <th class="text-center" st-sort="ticketNo">JIRA REF NO</th>
+      <th class="text-center" st-sort="programmer">PROGRAMMER</th>
+      <th class="text-center" st-sort="jenkinsJobId" st-sort-default="true">JENKINS JOB ID</th>
+      <th class="text-center" st-sort="loadModule">LOAD MODULE</th>
+      <th class="text-center" st-sort="jobStatus">STATUS</th>
+      <th class="text-center" st-sort="pro_id"> DETAILS </th>
+    </tr>
+    <tr class="text-center">
+      <th><input st-search="promoteDate" placeholder="Search Promote Date" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="ticketNo" placeholder="Search Jira Ref" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="programmer" placeholder="Search Programmer" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="jenkinsJobId" placeholder="Search Jenkins Job Id" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="loadModule" placeholder="Search Load Module" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="jobStatus" placeholder="Search Status" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="pro_id" placeholder="Search DB Key" class="input-sm form-control search-input"
+                 type="search"/></th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr ng-repeat="item in ProList | filter:FilterReady4Cons(item)" data-toggle="tooltip"  title="{{item.loadModule}}">
+      <td class="text-center">{{item.promoteDate}}</td>
+      <td class="text-center">{{item.ticketNo}}</td>
+      <td class="text-center">{{item.programmer}}</td>
+      <td class="text-center">{{item.jenkinsJobId}}</td>
+      <td class="text-center">{{item.loadModule}}</td>
+      <!--<td>{{item.jobStatus}}</td>-->
+      <td ng-if="item.jobStatus == 'Failure'" data-toggle="tooltip" class="text-center" style="color: #cc2900;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Success'" data-toggle="tooltip" class="text-center" style="color: #009900;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Fallback'" data-toggle="tooltip" class="text-center" style="color: #797979; background-color: rgba(226,226,226,0.99)">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Q0-FBK'" data-toggle="tooltip" class="text-center" style="color: #be6060;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Pipeline Revert'" data-toggle="tooltip" class="text-center" style="color: #236395;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'UAT in Progress'" data-toggle="tooltip" class="text-center" style="color: #800080;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Ready for Production'" data-toggle="tooltip" class="text-center" style="color: #D2691E;">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Loaded To Production (A0)'" data-toggle="tooltip" class="text-center" style="color: #808000; ">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'Consolidated To A2ZDAT'" data-toggle="tooltip" class="text-center" style="color: #02074e; ">  {{item.jobStatus}}  </td>
+      <td ng-if="item.jobStatus == 'TBC'" data-toggle="tooltip" class="text-center" style="color: rgba(86,86,86,0.96); ">  {{item.jobStatus}}  </td>
+      <td class="text-center">
+          <a ui-sref="promoteDetails({promoteFileID:item.pro_id})">
+            <button type="button" class="btn btn-custom">OPEN</i>
+        </button></a>
+      </td>
+    </tr>
+    </tbody>
+    <!--<tfoot>-->
+    <!--<tr>-->
+      <!--&lt;!&ndash;<td colspan="6" class="text-center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div st-pagination="" st-items-by-page="promoteTablePageSize" st-displayed-pages="5"></div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+    <!--</tr>-->
+    <!--</tfoot>-->
+  </table>
+</div>
+
+
+
+
+<!--<div class="horizontal-scroll">-->
+
+  <!--<table class="table table-hover" >-->
+
+    <!--<tbody >-->
+    <!--<tr ng-repeat="ProItem in ProList.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | orderBy:mainOrder:reverse " >-->
+      <!--<td data-toggle="popover" title="Popover Header" data-content="Git SHA: 3648sdf354asdf3684" class="text-center" >  {{ProItem.date}}  </td>-->
+      <!--<td data-toggle="tooltip"  class="text-center" title="{{ProItem.programmer}}">  {{ProItem.ticketNo}}  </td>-->
+      <!--<td data-toggle="tooltip"  class="text-center" title="{{ProItem.programmer}}">  {{ProItem.programmer}}  </td>-->
+      <!--<td data-toggle="tooltip"  class="text-center" title="{{ProItem.programmer}}">  {{ProItem.jenkinsJobId}}  </td>-->
+      <!--<td ng-if="ProItem.jobStatus !== 'Success'" data-toggle="tooltip" class="text-center" title="{{ProItem.programmer}}" style="color: #cc2900;">  {{ProItem.jobStatus}}  </td>-->
+      <!--<td ng-if="ProItem.jobStatus == 'Success'" data-toggle="tooltip" class="text-center" title="{{ProItem.programmer}}" style="color: #009900;">  {{ProItem.jobStatus}}  </td>-->
+      <!--<td data-toggle="tooltip"  class="text-center" title="Details">  <a ui-sref="promotes.detail({proDate:ProItem.date, proAssist:ProItem.ticketNo, proPgmName:ProItem.programmer, proJobId:ProItem.jenkinsJobId, proJobStatus:ProItem.jobStatus})"><h3 class="label label-default">VIEW</h3></a> </td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+  <!--</table>-->
+
+  <!--&lt;!&ndash;<center><uib-pagination total-items="totalPromotes" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></uib-pagination></center>&ndash;&gt;-->
+  <!--&lt;!&ndash;<pre>Page: {{currentPage}} / {{itemsPerPage}} / Total Items: {{totalPromotes}}</pre>&ndash;&gt;-->
+
+<!--</div>-->

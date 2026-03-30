@@ -1,0 +1,49 @@
+<div class="horizontal-scroll">
+  <h2 style="text-align: center"><b>CARINA ERROR DEFINITIONS</b></h2>
+  <div class="form-group select-page-size-wrap ">
+    <label>Rows on page
+      <select class="form-control selectpicker show-tick" title="Rows on page" ng-model="showSerrcItems" selectpicker ng-options="i for i in [5,10,25,50,100]">
+      </select>
+    </label>
+  </div>
+
+  <table class="table table-hover table-bordered table-striped" st-table="SerrcList" st-safe-src="Serrcs">
+    <thead style="font-size: medium">
+    <tr class="sortable" style=" background-color: #555555; color:white; border: inset; height: 50px;">
+      <th class="text-center" st-sort="promoteDate">SERRC NUMBER</th>
+      <th class="text-center" st-sort="jiraRef">PROGRAM</th>
+      <th class="text-center" st-sort="programmer">CAUSE</th>
+      <th class="text-center" st-sort="status">ACTION</th>
+    </tr>
+    <tr class="text-center">
+      <th><input st-search="serrcNo" placeholder="Search by Serrc No" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="programName" placeholder="Search by Program Name" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="cause" placeholder="Search by Cause" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="action" placeholder="Search by Action" class="input-sm form-control search-input" type="search"/></th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr ng-repeat="serrcItem in SerrcList | orderBy:'serrcNo'" data-toggle="tooltip"  title="{{serrcItem.serrcNo}}" style="font-size: small" >
+      <td class="text-center" style="border: inset;">{{serrcItem.serrcNo}}</td>
+      <td class="text-center" style="word-wrap: normal; border: inset;">{{serrcItem.programName}}</td>
+      <td class="text-center" style="border: inset;">{{serrcItem.cause}}</td>
+      <td class="text-center" style="border: inset;">{{serrcItem.action}}</td>
+      <!--<td class="text-center">-->
+        <!--<a ui-sref="promotes.details({promoteFileID:item.pro_id})">-->
+          <!--<button type="button" class="btn btn-custom btn-icon "><i class="fa fa-check" aria-hidden="true"></i>-->
+          <!--</button></a>-->
+      <!--</td>-->
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="6" class="text-center">
+        <div st-pagination="" st-items-by-page="showSerrcItems" st-displayed-pages="25"></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>

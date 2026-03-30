@@ -1,0 +1,31 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <!--<button type="button" class="close" ng-click="$dismiss()" aria-label="Close">-->
+      <!--<em class="ion-ios-close-empty sn-link-close"></em>-->
+    <!--</button>-->
+    <h4 class="modal-title" >ADD SERRC</h4>
+  </div>
+
+    <form name="myForm">
+      <div class="modal-body">
+        <div class="form-group has-success">
+          <label class="control-label" for="serrcNo" >Serrc Number</label>
+          <input type="text" class="form-control" ng-model="reqSerrcNo" id="serrcNo" required placeholder="type the new serrc number.."><br>
+
+          <label class="control-label" for="programName">Program Name</label>
+          <input type="text" class="form-control" ng-model="reqProgramName" id="programName" required placeholder="program that uses the new serrc.."><br>
+
+          <label class="control-label" for="cause">Cause</label>
+          <input type="text" class="form-control" ng-model="reqCause" id="cause" required placeholder="under what circumstance this serrc will be used.. "><br>
+
+          <label class="control-label" for="action">Action</label>
+          <input type="text" class="form-control" ng-model="reqAction" id="action" required placeholder="what's the action that program do after logging this serrc.."><br>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+          <a ui-sref="serrcs.insert"><button type="submit" ng-disabled="myForm.$invalid" class="btn-success btn" >ADD</button></a>
+      </div>
+    </form>
+</div>

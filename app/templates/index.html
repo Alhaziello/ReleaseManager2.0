@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <h1 class="display-4 fw-bold">Welcome to CarinaRM</h1>
+    <p class="lead">Modern Release Management and Incident Tracking</p>
+    <a href="{{ url_for('main.promotes_list') }}" class="btn btn-light btn-lg mt-3 me-2 fw-bold text-primary">Manage Promotes</a>
+    <a href="{{ url_for('main.serrcs_list') }}" class="btn btn-outline-light btn-lg mt-3 fw-bold">Track Serrcs</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h3 class="card-title text-primary"><i class="bi bi-rocket"></i> Promotes</h3>
+                <p class="card-text text-muted">Track all code deployments, branch merges, and environments.</p>
+                <a href="{{ url_for('main.promotes_list') }}" class="btn btn-sm btn-primary">View Promotes &rarr;</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h3 class="card-title text-danger"><i class="bi bi-bug"></i> Serrcs</h3>
+                <p class="card-text text-muted">A dedicated ticketing register logging program bugs and actions taken.</p>
+                <a href="{{ url_for('main.serrcs_list') }}" class="btn btn-sm btn-danger">View Serrcs &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
