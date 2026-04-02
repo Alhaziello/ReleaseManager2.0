@@ -4,47 +4,89 @@
 <div class="row mb-4">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="text-primary"><i class="bi bi-file-earmark-code"></i> Promote Details</h2>
-            <a href="{{ url_for('main.promotes_list') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to List</a>
+            <h2 class="fw-bold" style="letter-spacing: -1px;">Module Load Details: <span style="color: var(--airnz-teal)">Promote #{{ p.id }}</span></h2>
+            <a href="{{ url_for('main.promotes_list') }}" class="btn btn-outline-dark small fw-bold text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px;">&larr; Back to Load Modules</a>
         </div>
     </div>
 </div>
 
-<!-- Header Info -->
-<div class="row mb-5 mt-2">
-    <div class="col-12 text-center text-md-center">
-        <h4 class="mb-1"><span style="color: #9f2424;">Ticket :</span> <span class="text-dark">{{ p.ticket_no }}</span></h4>
-        <h4 class="mb-1"><span style="color: #9f2424;">Programmer :</span> <span class="text-dark text-capitalize">{{ p.programmer }}</span></h4>
-        <h4 class="mb-1"><span style="color: #9f2424;">Project :</span> <span class="text-dark text-uppercase">{{ p.project or 'N/A' }}</span></h4>
-        <h4 class="mb-1"><span style="color: #9f2424;">Description :</span> <span class="text-dark text-capitalize">{{ p.description }}</span></h4>
-        <h4 class="mb-1"><span style="color: #9f2424;">Promote Status :</span> <span class="text-dark">{{ p.job_status }}</span></h4>
-        <h4 class="mb-1"><span style="color: #9f2424;">Load Module :</span> <span class="text-primary fw-bold text-uppercase">{{ p.load_module }}</span></h4>
+<!-- Header Info Card -->
+<div class="card border-0 shadow-sm mb-5">
+    <div class="card-body p-4">
+        <div class="row text-center text-md-start g-4">
+            <div class="col-md-4">
+                <label class="small text-uppercase fw-bold text-muted mb-1 d-block">Ticket Reference</label>
+                <h4 class="fw-bold mb-0" style="color: var(--airnz-dark);">{{ p.ticket_no }}</h4>
+            </div>
+            <div class="col-md-4">
+                <label class="small text-uppercase fw-bold text-muted mb-1 d-block">Programmer</label>
+                <h4 class="fw-bold mb-0 text-capitalize">{{ p.programmer }}</h4>
+            </div>
+            <div class="col-md-4">
+                <label class="small text-uppercase fw-bold text-muted mb-1 d-block">Environment</label>
+                <span class="badge rounded-pill px-3 py-2" style="background: rgba(0, 169, 206, 0.1); color: var(--airnz-teal); font-size: 0.9rem;">{{ p.environment or 'N/A' }}</span>
+            </div>
+            <div class="col-12 border-top pt-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="small text-uppercase fw-bold text-muted mb-1 d-block">Project & Description</label>
+                        <p class="mb-0"><strong class="text-uppercase" style="color: var(--airnz-teal);">{{ p.project or 'N/A' }}</strong> &mdash; {{ p.description }}</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <label class="small text-uppercase fw-bold text-muted mb-1 d-block">Status</label>
+                        {% if p.job_status == 'TBC' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #6c757d; color: #ffffff; font-size: 0.9rem;">TO BE CONFIRMED</span>
+                        {% elif p.job_status == 'Success' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #28a745; color: #ffffff; font-size: 0.9rem;">BUILD SUCCESS</span>
+                        {% elif p.job_status == 'Awaiting Approval (QUAL)' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #17a2b8; color: #ffffff; font-size: 0.9rem;">AWAITING APPROVAL (QUAL)</span>
+                        {% elif p.job_status == 'Ready for Qual Deployment' or p.job_status == 'Ready for Qual' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #007bff; color: #ffffff; font-size: 0.9rem;">READY FOR QUAL</span>
+                        {% elif p.job_status == 'UAT in Progress' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #6f42c1; color: #ffffff; font-size: 0.9rem;">UAT IN PROGRESS</span>
+                        {% elif p.job_status == 'UAT Failed' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #dc3545; color: #ffffff; font-size: 0.9rem;">UAT FAILED</span>
+                        {% elif p.job_status == 'Awaiting Approval (PROD)' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #fd7e14; color: #ffffff; font-size: 0.9rem;">AWAITING APPROVAL (PROD)</span>
+                        {% elif p.job_status == 'Ready for Production' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #ffc107; color: #212529; font-size: 0.9rem;">READY FOR PROD</span>
+                        {% elif p.job_status == 'Loaded To Production (A0)' %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #198754; color: #ffffff; font-size: 0.9rem;">PROD LOADED (A0)</span>
+                        {% elif 'Consolidated' in p.job_status %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #00A9CE; color: #ffffff; font-size: 0.9rem;">CONSOLIDATED</span>
+                        {% else %}
+                            <span class="badge px-3 py-2 text-uppercase" style="background-color: #6c757d; color: #ffffff; font-size: 0.9rem;">{{ p.job_status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Fallback Info -->
 {% if p.job_status == 'Fallback' %}
-<div class="card border-danger mb-4 shadow-sm">
-    <div class="card-header bg-danger text-white text-center fw-bold text-uppercase">
-        Fallback Information
+<div class="card border-0 mb-5 overflow-hidden shadow-sm" style="border-left: 5px solid #dc3545 !important;">
+    <div class="card-header bg-danger bg-opacity-10 text-danger fw-bold text-uppercase border-0 py-3">
+        ⚠ Fallback Information
     </div>
     <div class="card-body p-0">
-        <table class="table table-hover table-bordered mb-0">
+        <table class="table mb-0">
             <tr>
-                <td class="text-end fw-bold w-25 bg-light">DATE :</td>
-                <td class="text-primary">{{ p.fallback_date or 'N/A' }}</td>
+                <td class="ps-4 fw-bold w-25 bg-light small text-uppercase py-3">Date</td>
+                <td class="text-danger py-3 px-4">{{ p.fallback_date|format_date }}</td>
             </tr>
             <tr>
-                <td class="text-end fw-bold w-25 bg-light">GIT-SHA :</td>
-                <td><a href="#" class="text-primary">{{ p.fbk_git_sha or 'N/A' }}</a></td>
+                <td class="ps-4 fw-bold w-25 bg-light small text-uppercase py-3">Git SHA</td>
+                <td class="py-3 px-4"><code class="text-dark">{{ p.fbk_git_sha or 'N/A' }}</code></td>
             </tr>
             <tr>
-                <td class="text-end fw-bold w-25 bg-light">JENKINS JOB ID :</td>
-                <td><a href="#" class="text-primary">{{ p.fbk_job_id or 'N/A' }}</a></td>
+                <td class="ps-4 fw-bold w-25 bg-light small text-uppercase py-3">Jenkins ID</td>
+                <td class="py-3 px-4"><code class="text-dark">{{ p.fbk_job_id or 'N/A' }}</code></td>
             </tr>
             <tr>
-                <td class="text-end fw-bold w-25 bg-light">NOTE/REASON :</td>
-                <td>{{ p.fbk_note or 'N/A' }}</td>
+                <td class="ps-4 fw-bold w-25 bg-light small text-uppercase py-3">Reason</td>
+                <td class="py-3 px-4 text-muted">{{ p.fbk_note or 'N/A' }}</td>
             </tr>
         </table>
     </div>
@@ -53,17 +95,17 @@
 
 <!-- Macro Promote -->
 {% if p.macros %}
-<div class="card mb-4 border-0">
-    <div class="card-header bg-transparent text-center fw-bold text-uppercase text-muted border-0" style="font-size: 1.1rem;">
-        Macro Promote
+<div class="card mb-5 border-0 shadow-sm overflow-hidden">
+    <div class="card-header bg-white border-bottom py-3">
+        <h5 class="mb-0 fw-bold small text-uppercase tracking-wider" style="color: var(--airnz-teal);">Macro Objects</h5>
     </div>
-    <div class="card-body p-0">
-        <table class="table table-hover table-striped table-bordered mb-0 text-center">
-            <thead style="background-color: #555555; color: white;">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 text-center">
+            <thead style="background-color: var(--airnz-dark); color: white;">
                 <tr>
-                    <th>MACRO NAME</th>
-                    <th>PROMOTE RESPONSE</th>
-                    <th>PROMOTE TIME</th>
+                    <th class="py-3">Macro Name</th>
+                    <th class="py-3">Response</th>
+                    <th class="py-3">Promote Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,15 +113,15 @@
                 <tr>
                     <td class="fw-bold">
                         {% if p.job_status == 'Success' and p.git_sha %}
-                            <a href="https://git.airnz.co.nz/blob/?f=macro/{{ m.macro_name }}.mac&r=Carina/carina/carina-source.git&h={{ p.git_sha }}" target="_blank" class="text-primary text-decoration-none" title="Click to view {{ m.macro_name }} source code">
+                            <a href="https://git.airnz.co.nz/blob/?f=macro/{{ m.macro_name }}.mac&r=Carina/carina/carina-source.git&h={{ p.git_sha }}" target="_blank" class="text-decoration-none" style="color: var(--airnz-teal);">
                                 {{ m.macro_name }}
                             </a>
                         {% else %}
-                            <span class="text-primary" title="Source view not available">{{ m.macro_name }}</span>
+                            <span style="color: var(--airnz-teal);">{{ m.macro_name }}</span>
                         {% endif %}
                     </td>
-                    <td>{{ m.promote_response }}</td>
-                    <td>{{ m.promote_time }}</td>
+                    <td class="small">{{ m.promote_response }}</td>
+                    <td class="text-muted small">{{ m.promote_time }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -89,21 +131,20 @@
 {% endif %}
 
 <!-- Program Promote -->
-<div class="card mb-4 border-0">
-    <div class="card-header bg-transparent text-center fw-bold text-uppercase text-muted border-0" style="font-size: 1.1rem;">
-        Program Promote
+<div class="card mb-5 border-0 shadow-sm overflow-hidden">
+    <div class="card-header bg-white border-bottom py-3">
+        <h5 class="mb-0 fw-bold small text-uppercase tracking-wider" style="color: var(--airnz-teal);">Program Objects</h5>
     </div>
-    <div class="card-body p-0">
-        <table class="table table-hover table-striped table-bordered mb-0 text-center text-uppercase">
-            <thead style="background-color: #555555; color: white;">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 text-center">
+            <thead style="background-color: var(--airnz-dark); color: white;">
                 <tr>
-                    <th>PROGRAM NAME</th>
-                    <th>OLD VERSION</th>
-                    <th>NEW VERSION</th>
-                    <th>PROGRAM RESPONSE</th>
-                    <th>ASSEMBLY CC</th>
-                    <th>PROMOTE TIME</th>
-                    <th>PROGRAM LISTING</th>
+                    <th class="py-3">Name</th>
+                    <th class="py-3">Versions</th>
+                    <th class="py-3">Response</th>
+                    <th class="py-3">CC</th>
+                    <th class="py-3">Time</th>
+                    <th class="py-3 text-end pe-4">Listing</th>
                 </tr>
             </thead>
             <tbody>
@@ -111,31 +152,32 @@
                 <tr>
                     <td class="fw-bold">
                         {% if p.job_status == 'Success' and p.git_sha %}
-                            <a href="https://git.airnz.co.nz/blob/?f=src/{{ prog.program }}.asm&r=Carina/carina/carina-source.git&h={{ p.git_sha }}" target="_blank" class="text-primary text-decoration-none" title="Click to view {{ prog.program }} source code">
+                            <a href="https://git.airnz.co.nz/blob/?f=src/{{ prog.program }}.asm&r=Carina/carina/carina-source.git&h={{ p.git_sha }}" target="_blank" class="text-decoration-none" style="color: var(--airnz-teal);">
                                 {{ prog.program }}
                             </a>
                         {% else %}
-                            <span class="text-primary" title="Source view not available">{{ prog.program }}</span>
+                            <span style="color: var(--airnz-teal);">{{ prog.program }}</span>
                         {% endif %}
                     </td>
-                    <td>{{ prog.old_version }}</td>
-                    <td>{{ prog.new_version }}</td>
-                    <td>{{ prog.promote_response }}</td>
-                    <td>{{ prog.assembly_cc or '--' }}</td>
-                    <td>{{ prog.promote_time }}</td>
                     <td>
+                        <span class="small text-muted">{{ prog.old_version }}</span>
+                        <span class="mx-2 text-silver">&rarr;</span>
+                        <span class="small fw-bold text-dark">{{ prog.new_version }}</span>
+                    </td>
+                    <td class="small">{{ prog.promote_response }}</td>
+                    <td><code>{{ prog.assembly_cc or '--' }}</code></td>
+                    <td class="text-muted small">{{ prog.promote_time }}</td>
+                    <td class="text-end pe-4">
                         {% if prog.assembly_cc and prog.assembly_cc != '--' %}
-                            <a href="/static/listing/{{ p.jenkins_job_id }}/{{ prog.program_listing }}.html" target="_blank" class="text-primary text-decoration-none" title="Click to view {{ prog.program_listing }} Listing">
-                                {{ prog.program_listing }}
-                            </a>
+                            <a href="/static/listing/{{ p.jenkins_job_id }}/{{ prog.program_listing }}.html" target="_blank" class="btn btn-sm btn-outline-dark fw-bold rounded-pill" style="font-size: 0.7rem;">VIEW HTML</a>
                         {% else %}
-                            <span class="text-muted">------</span>
+                            <span class="text-muted opacity-25">&mdash;</span>
                         {% endif %}
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" class="text-muted">No programs attached</td>
+                    <td colspan="6" class="text-muted py-4">No programs attached to this promotion</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -144,123 +186,152 @@
 </div>
 
 <!-- Testing, Requirements, Fallback -->
-<div class="row mb-4">
-    <!-- Testing -->
-    <div class="col-12 mb-4">
-        <div class="card border-0">
-            <div class="card-header text-center fw-bold bg-transparent border-0" style="color: #28a745; font-size: 1.1rem;">
-                SYSTEM & ACCEPTANCE TESTING
-            </div>
-            <div class="card-body text-center border-top border-bottom py-2 bg-light">
-                <p class="mb-0">{{ p.tester_name_1 or 'No tester assigned' }}</p>
-                <p class="mb-0">{{ p.tester_name_2 or '' }}</p>
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm border-top border-success border-4">
+            <div class="card-body p-4 text-center">
+                <p class="small text-uppercase fw-bold text-success mb-3">Testing & Acceptance</p>
+                <h6 class="mb-1 fw-bold">{{ p.tester_name_1 or 'Unassigned' }}</h6>
+                <p class="small text-muted">{{ p.tester_name_2 or '---' }}</p>
             </div>
         </div>
     </div>
-    
-    <!-- Special Requirements -->
-    <div class="col-12 mb-4">
-        <div class="card border-0">
-            <div class="card-header text-center fw-bold bg-transparent border-0" style="color: #fd7e14; font-size: 1.1rem;">
-                SPECIAL REQUIREMENTS
-            </div>
-            <div class="card-body text-center border-top border-bottom py-2 bg-light">
-                <p class="mb-0 text-muted">{{ p.special_requirement or 'None' }}</p>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm border-top border-warning border-4">
+            <div class="card-body p-4 text-center">
+                <p class="small text-uppercase fw-bold text-warning mb-3">Special Requirements</p>
+                <p class="small text-muted">{{ p.special_requirement or 'No special instructions' }}</p>
             </div>
         </div>
     </div>
-
-    <!-- Fallback Plan -->
-    <div class="col-12">
-        <div class="card border-0">
-            <div class="card-header text-center fw-bold bg-transparent border-0" style="color: #dc3545; font-size: 1.1rem;">
-                FALLBACK PLAN
-            </div>
-            <div class="card-body text-center border-top border-bottom py-2 bg-light">
-                <p class="mb-0 text-muted">{{ p.fallback_option or 'None specified' }}</p>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm border-top border-danger border-4">
+            <div class="card-body p-4 text-center">
+                <p class="small text-uppercase fw-bold text-danger mb-3">Fallback Plan</p>
+                <p class="small text-muted">{{ p.fallback_option or 'Standard rollback policy' }}</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Action Buttons -->
-<div class="row mb-5 mt-4">
-    <div class="col-12 text-center px-5">
+<!-- Module Load Nomination Data -->
+{% if p.a0_nomination_date %}
+<div class="card border-0 shadow-sm mb-4 border-start border-info border-4">
+    <div class="card-body p-4">
+        <div class="row text-center text-md-start">
+            <div class="col-12">
+                <label class="small text-uppercase fw-bold text-muted mb-1 d-block">PROD Nomination (A0)</label>
+                <p class="mb-0 fw-bold text-warning">{{ p.a0_nomination_date|format_date }} @ {{ p.a0_nomination_time }}</p>
+                <p class="small text-muted mb-0">Approver: <span class="fw-bold">{{ p.a0_approver or 'Pending' }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Action Buttons / Command Center -->
+<div class="card border-0 shadow-lg mb-5" style="background-color: var(--airnz-dark);">
+    <div class="card-body p-5 text-center">
         {% set role = session.get('role', '') %}
+        {% set is_admin = (role == 'ADMIN') %}
         
-        {% if p.job_status == 'TBC' and role in ['DEV', 'ADMIN'] %}
-            <form action="{{ url_for('main.advance_promote', id=p.id, action='to_uat') }}" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-lg btn-info text-white w-75 shadow-sm text-uppercase fw-bold rounded-0 border-0">Loaded to QUAL for UAT</button>
+        {% if p.job_status == 'TBC' and (role == 'DEV' or is_admin) %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='to_success') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-success w-50 py-3 text-uppercase fw-bold shadow">Simulate Jenkins Build Success</button>
+                <p class="text-white opacity-50 mt-3 small">Jenkins usually automates this step.</p>
             </form>
-        {% endif %}
-        
-        {% if p.job_status == 'UAT in Progress' and role in ['QA', 'ADMIN'] %}
-            <form action="{{ url_for('main.advance_promote', id=p.id, action='to_prod') }}" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-lg btn-success w-75 shadow-sm text-uppercase fw-bold rounded-0 border-0">UAT Passed</button>
+
+        {% elif p.job_status == 'Success' and (role == 'DEV' or is_admin) %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='nominate_q0') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-airnz w-50 py-3 text-uppercase fw-bold shadow">Nominate for QUAL Deployment</button>
             </form>
-        {% endif %}
-        
-        {% if p.job_status == 'Ready for Production' and role == 'ADMIN' %}
-            <form action="{{ url_for('main.advance_promote', id=p.id, action='load_prod') }}" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-lg btn-success w-75 shadow-sm text-uppercase fw-bold rounded-0 border-0">Loaded To Production (A0)</button>
+
+        {% elif p.job_status == 'Ready for Qual Deployment' and is_admin %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='to_uat') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-primary w-50 py-3 text-uppercase fw-bold shadow">Load into QUAL (UAT)</button>
             </form>
-        {% endif %}
-        
-        {% if p.job_status == 'Loaded To Production (A0)' and role == 'ADMIN' %}
-            <form action="{{ url_for('main.advance_promote', id=p.id, action='consolidate') }}" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-lg btn-secondary w-75 shadow-sm text-uppercase fw-bold rounded-0 border-0">CONSOLIDATED</button>
+
+        {% elif p.job_status == 'UAT in Progress' and (role == 'QA' or is_admin) %}
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <h5 class="text-white mb-4">Nominate for Production (A0)</h5>
+                    <form action="{{ url_for('main.advance_promote', id=p.id, action='nominate_a0') }}" method="POST" id="a0NominationForm">
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-4">
+                                <label class="small text-white opacity-50 d-block text-start mb-1">Release Date (Wed)</label>
+                                <input type="date" name="a0_date" class="form-control wednesday-only" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="small text-white opacity-50 d-block text-start mb-1">Release Time</label>
+                                <div class="form-control bg-light fw-bold text-center">1:00 PM</div>
+                                <input type="hidden" name="a0_time" value="13:00">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="small text-white opacity-50 d-block text-start mb-1">Approver Name/ID</label>
+                                <input type="text" name="a0_approver" class="form-control" placeholder="Approver Name/ID" required>
+                            </div>
+                        </div>
+                        <p class="text-white opacity-50 small mb-3">Note: Loads to prod are strictly scheduled for Wednesdays at 1:00 PM.</p>
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-success w-100 py-3 text-uppercase fw-bold">Nominate PROD Load (A0)</button>
+                            <button type="button" class="btn btn-danger w-50 py-3 text-uppercase fw-bold shadow border-dark" onclick="document.getElementById('uatFailForm').submit()">
+                                UAT FAILED
+                            </button>
+                        </div>
+                    </form>
+                    <form action="{{ url_for('main.advance_promote', id=p.id, action='uat_failed') }}" method="POST" id="uatFailForm" class="d-none"></form>
+                </div>
+            </div>
+
+        {% elif p.job_status == 'Awaiting Approval (PROD)' and is_admin %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='approve_a0') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-warning text-dark w-50 py-3 text-uppercase fw-bold shadow">Approve PROD (A0) Nomination</button>
             </form>
+        {% elif p.job_status == 'Ready for Production' and is_admin %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='load_prod') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-success w-50 py-3 text-uppercase fw-bold shadow">Finalize Production Load (A0)</button>
+            </form>
+
+        {% elif p.job_status == 'Loaded To Production (A0)' and is_admin %}
+            <form action="{{ url_for('main.advance_promote', id=p.id, action='consolidate') }}" method="POST">
+                <button type="submit" class="btn btn-lg btn-secondary w-50 py-3 text-uppercase fw-bold shadow">Archive Load Data (Consolidate)</button>
+            </form>
+
+        {% else %}
+            {% if (role == 'DEV' or role == 'QA') and 'Approval' in p.job_status %}
+                <p class="text-white opacity-75 mb-0 fw-bold">Module Load is awaiting Admin Authorization.</p>
+            {% elif role == 'DEV' and p.job_status != 'TBC' and p.job_status != 'Success' %}
+                <p class="text-white opacity-75 mb-0 fw-bold">Module Load is now with ADMIN/QA team.</p>
+            {% else %}
+                <p class="text-white opacity-50 mb-0 italic">Current Module Load status: {{ p.job_status }}. Commands restricted.</p>
+            {% endif %}
         {% endif %}
     </div>
 </div>
 
 <!-- Carina Systems Use Table -->
-<div class="card mb-5 border-0">
-    <div class="card-header bg-transparent text-center fw-bold border-0 text-muted text-uppercase" style="font-size: 1.1rem;">
-        FOR CARINA SYSTEMS USE:
+<div class="card mb-5 border-0 shadow-sm overflow-hidden">
+    <div class="card-header bg-light border-bottom py-3">
+        <h5 class="mb-0 fw-bold small text-uppercase tracking-wider text-muted">For CARINA Systems Use Only</h5>
     </div>
-    <div class="card-body p-0">
-        <table class="table table-bordered mb-0 text-center">
-            <thead style="background-color: #555555; color: white;">
+    <div class="table-responsive">
+        <table class="table table-bordered mb-0 text-center small">
+            <thead class="bg-light">
                 <tr>
-                    <th>Link Date</th>
-                    <th>Load Date</th>
-                    <th>Load Module</th>
+                    <th class="py-2">Link Date</th>
+                    <th class="py-2">Load Date</th>
+                    <th class="py-2">Load Module</th>
+                    <th class="py-2">S-Now Change #</th>
+                    <th class="py-2">Git Commit</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="fw-bold">{{ p.promote_date or 'N/A' }}</td>
-                    <td class="fw-bold">{{ p.load_date or 'N/A' }}</td>
-                    <td class="fw-bold">{{ p.load_module or 'N/A' }}</td>
-                </tr>
-            </tbody>
-            <thead style="background-color: #555555; color: white;">
-                <tr>
-                    <th>Service Now Change Number</th>
-                    <th>Consolidated Date</th>
-                    <th>Consolidated Module</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="fw-bold">{{ p.change_number or 'N/A' }}</td>
-                    <td class="fw-bold">{{ p.colsol_date or 'N/A' }}</td>
-                    <td class="fw-bold">{{ p.colsol_mod or 'N/A' }}</td>
-                </tr>
-            </tbody>
-            <thead style="background-color: #555555; color: white;">
-                <tr>
-                    <th>Git Commit SHA</th>
-                    <th>Jenkins Promote ID</th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="fw-bold"><a href="#" class="text-dark">{{ p.git_sha or 'N/A' }}</a></td>
-                    <td class="fw-bold"><a href="#" class="text-dark">{{ p.jenkins_job_id or 'N/A' }}</a></td>
-                    <td class="fw-bold">{{ p.note or 'N/A' }}</td>
+                    <td class="py-3">{{ p.promote_date|format_date }}</td>
+                    <td class="py-3">{{ p.load_date|format_date }}</td>
+                    <td class="py-3 fw-bold text-airnz">{{ p.load_module or '---' }}</td>
+                    <td class="py-3">{{ p.change_number or '---' }}</td>
+                    <td class="py-3"><code>{{ p.git_sha[:8] if p.git_sha else '---' }}</code></td>
                 </tr>
             </tbody>
         </table>

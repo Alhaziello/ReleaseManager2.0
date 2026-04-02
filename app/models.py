@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .extensions import db
 
 class Serrc(db.Model):
     __tablename__ = 'serrc'
@@ -44,6 +42,14 @@ class Promote(db.Model):
     fbk_git_sha = db.Column(db.String(40))
     fbk_job_id = db.Column(db.Integer)
     fbk_note = db.Column(db.Text)
+    
+    # Nomination Fields (Diagram 3 compliant)
+    q0_nomination_date = db.Column(db.String(50))
+    q0_nomination_time = db.Column(db.String(50))
+    q0_approver = db.Column(db.String(100))
+    a0_nomination_date = db.Column(db.String(50))
+    a0_nomination_time = db.Column(db.String(50))
+    a0_approver = db.Column(db.String(100))
     
     macros = db.relationship('PromoteMacro', backref='promote', lazy=True, cascade="all, delete-orphan")
     programs = db.relationship('PromoteProgram', backref='promote', lazy=True, cascade="all, delete-orphan")
@@ -101,4 +107,31 @@ class PromoteProgram(db.Model):
             'assemblyCc': self.assembly_cc,
             'promoteTime': self.promote_time,
             'programListing': self.program_listing
+        }
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    worker_id = db.Column(db.String(50), unique=True, nullable=False)
+    role = db.Column(db.String(20), nullable=False) # e.g., 'ADMIN', 'QA', 'DEV'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'workerId': self.worker_id,
+            'role': self.role
+        }
+
+class SystemConfig(db.Model):
+    __tablename__ = 'system_config'
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(50), unique=True, nullable=False)
+    value = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255))
+
+    def to_dict(self):
+        return {
+            'key': self.key,
+            'value': self.value,
+            'description': self.description
         }

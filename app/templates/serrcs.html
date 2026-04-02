@@ -1,32 +1,40 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><span class="text-danger">Serrc</span> Incident Register</h2>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addSerrcModal">
-        + Log Serrc
-    </button>
+    <h2 class="fw-bold" style="letter-spacing: -1px;">Safety Logs: <span style="color: var(--airnz-teal)">Serrcs</span></h2>
+    {% if session.get('role') in ['ADMIN', 'QA'] %}
+        <button type="button" class="btn btn-airnz shadow-sm" data-bs-toggle="modal" data-bs-target="#addSerrcModal">
+            Log New Serrc
+        </button>
+    {% endif %}
 </div>
 
-<div class="card shadow-sm border-0">
-    <div class="card-body">
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
+<div class="card border-0 shadow-sm overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead style="background-color: var(--airnz-dark); color: white;">
                 <tr>
-                    <th>Serrc No</th>
-                    <th>Program Name</th>
-                    <th>Cause</th>
-                    <th>Action Taken</th>
-                    <th>Actions</th>
+                    <th class="ps-4 py-3">Entry NO</th>
+                    <th class="py-3">Program Name</th>
+                    <th class="py-3">Bug Description</th>
+                    <th class="py-3">Action Plan</th>
+                    <th class="py-3">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for s in serrcs %}
                 <tr>
-                    <td><span class="fw-bold">{{ s.serrc_no }}</span></td>
-                    <td>{{ s.program_name }}</td>
-                    <td>{{ s.cause }}</td>
-                    <td>{{ s.action }}</td>
+                    <td class="ps-4 fw-bold text-muted small">SR-{{ s.id }}</td>
+                    <td class="fw-bold" style="color: var(--airnz-dark);">{{ s.program_name }}</td>
+                    <td>
+                        <div class="text-muted small" style="max-width: 400px; line-height: 1.4;">{{ s.cause }}</div>
+                    </td>
+                    <td>
+                        <span class="p-2 px-3 border rounded bg-light small d-inline-block text-airnz fw-bold">
+                            {{ s.action }}
+                        </span>
+                    </td>
                     <td>
                         <form action="{{ url_for('main.delete_serrc', id=s.id) }}" method="POST" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>

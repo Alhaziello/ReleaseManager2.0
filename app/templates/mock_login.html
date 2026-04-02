@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="card border-0 shadow-lg text-center" style="border-radius: 12px; overflow: hidden;">
+            <div class="card-header border-0 py-4" style="background-color: var(--airnz-dark); color: white;">
+                <h3 class="mb-0 fw-bold" style="letter-spacing: -1px;">AirNZ Single Sign-On</h3>
+                <p class="small opacity-75 mb-0 mt-1">Enterprise Authentication</p>
+            </div>
+            <div class="card-body p-5 bg-white">
+                <!-- TODO(Integration): In production, replacing this form with a single button redirecting to ServiceNow -> /login -->
+                <form action="{{ url_for('main.callback') }}" method="POST">
+                    <p class="text-muted small mb-4 fw-bold">Mock ServiceNow OAuth 2.0 Identity Provider</p>
+                    
+                    <div class="form-floating mb-4 text-start">
+                        <input type="text" class="form-control" id="worker_id" name="worker_id" placeholder="AIRNZ-NZ\ADMIN1" required autocomplete="off" style="border-radius: 8px; border-color: rgba(0,0,0,0.1);">
+                        <label for="worker_id" class="text-muted">AirNZ LAN ID</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg w-100 fw-bold shadow-sm text-uppercase" style="background-color: var(--airnz-teal); color: white; border-radius: 8px; font-size: 0.9rem; letter-spacing: 1px;">
+                        Sign in through ServiceNow
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer border-0 py-3" style="background-color: #f8f9fa;">
+                <small class="text-muted">CARINA Release Manager Access</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

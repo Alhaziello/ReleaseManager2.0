@@ -1,51 +1,66 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><span class="text-primary">Promote</span> Deployments</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPromoteModal">
-        + New Promote
-    </button>
+    <h2 class="fw-bold" style="letter-spacing: -1px;">System Workflow: <span style="color: var(--airnz-teal)">LOAD MODULES</span></h2>
+    {% if session.get('role') == 'ADMIN' %}
+        <a href="{{ url_for('main.add_promote') }}" class="btn btn-airnz shadow-sm">New Promotion</a>
+    {% endif %}
 </div>
 
-<div class="card shadow-sm border-0">
-    <div class="card-body">
-        <table class="table table-hover align-middle table-bordered">
-            <thead style="background-color: #555555; color: white;" class="text-center text-uppercase">
+<div class="card border-0 shadow-sm overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead style="background-color: var(--airnz-dark); color: white;">
                 <tr>
-                    <th>Date</th>
-                    <th>ADO Ref No</th>
-                    <th>Programmer</th>
-                    <th>Jenkins Job ID</th>
-                    <th>Load Module</th>
-                    <th>Status</th>
-                    <th class="text-center">Details</th>
+                    <th class="ps-4 py-3">Date</th>
+                    <th class="py-3">Ticket No</th>
+                    <th class="py-3">Programmer</th>
+                    <th class="py-3">Jenkins ID</th>
+                    <th class="py-3 text-airnz" style="color: var(--airnz-teal) !important;">Module Name</th>
+                    <th class="py-3">Status</th>
+                    <th class="py-3">Details</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
+            <tbody>
                 {% for p in promotes %}
                 <tr>
-                    <td><small class="text-muted">{{ p.promote_date.split(' ')[0] if p.promote_date else '' }}</small></td>
-                    <td><b>{{ p.ticket_no }}</b></td>
-                    <td>{{ p.programmer }}</td>
-                    <td><code>{{ p.jenkins_job_id or 'N/A' }}</code></td>
-                    <td class="text-primary">{{ p.load_module }}</td>
-                    <td class="fw-bold
-                        {% if p.job_status == 'TBC' %}text-secondary
-                        {% elif p.job_status == 'UAT in Progress' %}text-purple
-                        {% elif p.job_status == 'Ready for Production' %}text-warning
-                        {% else %}text-success{% endif %}"
-                        {% if p.job_status == 'UAT in Progress' %}style="color: purple;"{% endif %}>
-                        {{ p.job_status }}
+                    <td class="ps-4 small text-muted fw-bold">{{ p.promote_date|format_date }}</td>
+                    <td class="fw-bold">{{ p.ticket_no }}</td>
+                    <td class="text-capitalize small">{{ p.programmer }}</td>
+                    <td><code class="small text-dark">{{ p.jenkins_job_id or '---' }}</code></td>
+                    <td class="fw-bold text-uppercase" style="color: var(--airnz-teal);">{{ p.load_module }}</td>
+                    <td>
+                        {% if p.job_status == 'TBC' %}
+                            <span class="badge px-3 py-1" style="background-color: #6c757d; color: #ffffff; font-size: 0.75rem;">TO BE CONFIRMED</span>
+                        {% elif p.job_status == 'Success' %}
+                            <span class="badge px-3 py-1" style="background-color: #28a745; color: #ffffff; font-size: 0.75rem;">BUILD SUCCESS</span>
+                        {% elif p.job_status == 'Awaiting Approval (QUAL)' %}
+                            <span class="badge px-3 py-1" style="background-color: #17a2b8; color: #ffffff; font-size: 0.75rem;">AWAITING APPROVAL (QUAL)</span>
+                        {% elif p.job_status == 'Ready for Qual Deployment' or p.job_status == 'Ready for Qual' %}
+                            <span class="badge px-3 py-1" style="background-color: #007bff; color: #ffffff; font-size: 0.75rem;">READY FOR QUAL</span>
+                        {% elif p.job_status == 'UAT in Progress' %}
+                            <span class="badge px-3 py-1" style="background-color: #6f42c1; color: #ffffff; font-size: 0.75rem;">UAT IN PROGRESS</span>
+                        {% elif p.job_status == 'UAT Failed' %}
+                            <span class="badge px-3 py-1" style="background-color: #dc3545; color: #ffffff; font-size: 0.75rem;">UAT FAILED</span>
+                        {% elif p.job_status == 'Awaiting Approval (PROD)' %}
+                            <span class="badge px-3 py-1" style="background-color: #fd7e14; color: #ffffff; font-size: 0.75rem;">AWAITING APPROVAL (PROD)</span>
+                        {% elif p.job_status == 'Ready for Production' %}
+                            <span class="badge px-3 py-1" style="background-color: #ffc107; color: #212529; font-size: 0.75rem;">READY FOR PROD</span>
+                        {% elif p.job_status == 'Loaded To Production (A0)' %}
+                            <span class="badge px-3 py-1" style="background-color: #198754; color: #ffffff; font-size: 0.75rem;">PROD LOADED (A0)</span>
+                        {% elif 'Consolidated' in p.job_status %}
+                            <span class="badge px-3 py-1" style="background-color: #00A9CE; color: #ffffff; font-size: 0.75rem;">CONSOLIDATED</span>
+                        {% else %}
+                            <span class="badge px-3 py-1" style="background-color: #6c757d; color: #ffffff; font-size: 0.75rem;">{{ p.job_status.upper() }}</span>
+                        {% endif %}
                     </td>
-                    <td class="text-center">
-                        <div class="btn-group" role="group">
-                            <a href="{{ url_for('main.promote_detail', id=p.id) }}" class="btn btn-sm btn-outline-danger px-3 py-0 fw-bold rounded-0" style="border-width: 1px;">OPEN</a>
-                            
-                            {% set role = session.get('role', '') %}
-                            {% if role == 'ADMIN' %}
+                    <td>
+                        <div class="btn-group shadow-sm">
+                            <a href="{{ url_for('main.promote_detail', id=p.id) }}" class="btn btn-light btn-sm border px-3 fw-bold" style="background: #ffffff; color: var(--airnz-dark); font-size: 0.7rem;">OPEN</a>
+                            {% if session.get('role') == 'ADMIN' %}
                                 <form action="{{ url_for('main.delete_promote', id=p.id) }}" method="POST" class="d-inline ms-1">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i> Del</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm border px-2 py-0" onclick="return confirm('Delete this Module Load Ticket?')"><i class="bi bi-trash"></i></button>
                                 </form>
                             {% endif %}
                         </div>
@@ -53,7 +68,7 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" class="text-center py-4 text-muted">No promotes found. Create one.</td>
+                    <td colspan="7" class="text-center py-4 text-muted small">No promotions scheduled.</td>
                 </tr>
                 {% endfor %}
             </tbody>
